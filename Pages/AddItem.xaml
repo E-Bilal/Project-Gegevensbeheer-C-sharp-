@@ -1,0 +1,90 @@
+﻿<Window x:Class="Eindwerk__Gegevensbeheer__en_C_sharp.Pages.AddItem"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Eindwerk__Gegevensbeheer__en_C_sharp.Pages"
+        mc:Ignorable="d"
+        Title="AddItem" Height="360" Width="400"
+        Background="#36393F"
+        FontFamily="Montserrat"
+        Foreground="White"
+        FontSize="14"
+        >
+        <Window.Resources>
+            <Style TargetType="TextBox" x:Key="SettingsTextBox">
+
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Height" Value="28"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Padding" Value="4 0 4 0"/>
+                <Setter Property="CaretBrush" Value="LightGray"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <!--<Setter Property="IsEnabled" Value="False"/>-->
+                <Setter Property="Background" Value="#292b2F"/>
+            </Style>
+
+            <Style TargetType="Button">
+                <Setter Property ="Background" Value="#FF727272"/>
+                <Setter Property="Foreground" Value="white"/>
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="Padding" Value="10" />
+                <Setter Property="Height" Value="40"/>
+            </Style>
+        </Window.Resources>
+    <Grid>
+
+
+        <StackPanel >
+            
+            <StackPanel  Margin=" 15 20 0 0"  Orientation="Horizontal" >
+                <TextBlock Name="naamOfModel" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" Width="80"/>
+                <Border CornerRadius="5" BorderThickness="4" Background="#292b2F"  MinWidth="200" MaxWidth="300">
+                    <TextBox x:Name="nameTxt" Style="{StaticResource SettingsTextBox}"/>
+                </Border>
+            </StackPanel>
+
+            <StackPanel  Margin=" 15 5 0 0"  Orientation="Horizontal"  Name="sp_Model">
+                <TextBlock Text="Model" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" Width="80"/>
+                <Border CornerRadius="5" BorderThickness="4" Background="#292b2F"  MinWidth="200" MaxWidth="300">
+                    <TextBox x:Name="modelTxt" Style="{StaticResource SettingsTextBox}"/>
+                </Border>
+            </StackPanel>
+
+            <StackPanel  Margin=" 15 5 0 0"  Orientation="Horizontal"  Name="sp_Bouwjaar">
+                <TextBlock Text="Bouwjaar" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" Width="80"/>
+                <Border CornerRadius="5" BorderThickness="4" Background="#292b2F"  Width="80">
+                    <TextBox x:Name="bouwjaarTxt" Style="{StaticResource SettingsTextBox}"/>
+                </Border>
+            </StackPanel>
+
+            <StackPanel Margin=" 15 5 0 0" Orientation="Horizontal">
+                <TextBlock Text="Voorraad" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" Width="80"/>
+                <Border CornerRadius="5" BorderThickness="4" Background="#292b2F" Width="80">
+                    <TextBox x:Name="voorraadTxt" Style="{StaticResource SettingsTextBox}"/>
+                </Border>
+            </StackPanel>
+
+            <StackPanel Margin=" 15 5 0 0" Orientation="Horizontal">
+                <TextBlock Text="Prijs" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" Width="80"/>
+
+                <StackPanel Orientation="Horizontal">
+                    
+                <Border CornerRadius="5" BorderThickness="4" Background="#292b2F"  Width="60">
+                    <TextBox x:Name="prijsTxt" Style="{StaticResource SettingsTextBox}"/>
+                </Border>
+                    <TextBlock Text="." FontSize="25" Margin="0 5 0 0 "/>
+                    <Border CornerRadius="5" BorderThickness="4" Background="#292b2F" Margin="0 0 0 0" Width="40">
+                    <TextBox x:Name="prijs2Txt" Style="{StaticResource SettingsTextBox}" MaxLength="2"/>
+                </Border>
+                </StackPanel>
+            </StackPanel>
+            
+            
+            <Button Content="Toevoegen" Click="Button_Click" Width="120" Margin="0 20 0 0"/>
+            
+
+        </StackPanel>
+    </Grid>
+</Window>
