@@ -1,4 +1,5 @@
-﻿using Eindwerk__Gegevensbeheer__en_C_sharp.Pages;
+﻿using Eindwerk__Gegevensbeheer__en_C_sharp.Models;
+using Eindwerk__Gegevensbeheer__en_C_sharp.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,11 +26,25 @@ namespace Eindwerk__Gegevensbeheer__en_C_sharp
         {
             InitializeComponent();
 
-            listNav.ItemsSource = new List<NavButton>
-                {
-                    new NavButton("Voorraad", new Voorraad()),
+            var navigatie = new List<NavButton>
+            {
+                new NavButton("Voorraad", new Voorraad()),
+                new NavButton("Bestelling", new Bestelling()),
+            };
+            if (App.Rol != "Verkoper")
+            {
+                navigatie.Add(new NavButton("Klanten", new Klanten()));
+                navigatie.Add(new NavButton("Leveranciers", new Leveranciers()));
+                navigatie.Add(new NavButton("Mecaniciens", new Mecaniciens()));
+                navigatie.Add(new NavButton("Reparaties", new Reparaties()));
+            }
 
-                };
+            if (App.Rol == "Admin")
+            {
+                navigatie.Add(new NavButton("Registratie", new Registratie()));
+            }
+
+            listNav.ItemsSource = navigatie;
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -49,6 +64,15 @@ namespace Eindwerk__Gegevensbeheer__en_C_sharp
                 link = link.Replace(" ", "");
             }
             frame.Source = new System.Uri($"/Pages/{link}.xaml", UriKind.Relative);
+        }
+
+        private void Logout(object sender, RoutedEventArgs e)
+        {
+
+            LoginWindow login = new LoginWindow();
+            login.Show();
+            Close();
+            App.Rol = "";
         }
     }
 }

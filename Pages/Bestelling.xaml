@@ -1,0 +1,149 @@
+﻿<Page x:Class="Eindwerk__Gegevensbeheer__en_C_sharp.Pages.Bestelling"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Eindwerk__Gegevensbeheer__en_C_sharp.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Bestelling">
+    <Page.Resources>
+
+        <Style TargetType="TextBox" x:Key="UpdateTextBox">
+
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Foreground" Value="White"/>
+
+            <Setter Property="CaretBrush" Value="LightGray"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+            <Setter Property="Background" Value="#292b2F"/>
+        </Style>
+
+        <ControlTemplate x:Key="NoMouseOverButtonTemplate" TargetType="Button">
+            <Border Background="{TemplateBinding Background}"  
+                    BorderBrush="{TemplateBinding BorderBrush}"  
+                    BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  
+                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+            </Border>
+
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled"  Value="False">
+                    <Setter Property="Background"   Value="{x:Static SystemColors.ControlLightBrush}" />
+                    <Setter Property="Foreground"   Value="{x:Static SystemColors.GrayTextBrush}" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Page.Resources>
+    
+    
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!--Keuze Start-->
+        <StackPanel Name="sp_Keuze" Orientation="Horizontal" HorizontalAlignment="Center" Height="120" >
+            <Button Content="Klanten" Width="190" Click="OpenKlanten"/>
+            <Button Content="Leveranciers"  Width="190" Click="OpenLeveranciers" Margin="90 0 0 0"/>
+        </StackPanel>
+        <!--Keuze Einde-->
+        
+        
+        <!--Klanten Start-->
+        <!--<StackPanel >-->
+        <Grid Visibility="Hidden" Name="sp_Klanten">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="0">
+                    <Button Padding="4" Margin="4 0 0 0" Height="30" RenderOptions.BitmapScalingMode="HighQuality" Click="GoBack">
+                        <Image Source="/Images/GoBack.png"/>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                    <TextBlock Text="Id" Width="35" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White" />
+                    <TextBlock Text="Product" Width="180" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White" />
+                    <TextBlock Text="Besteld door" Width="250" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White"  />
+                    <TextBlock Text="Totaal" Width="60" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White"/>
+                </StackPanel>
+
+
+                <ListView Name="lb_KlantenBestelling" Background="#36393F" BorderThickness="0" ScrollViewer.CanContentScroll="False" VirtualizingPanel.ScrollUnit="Pixel"
+                  ItemContainerStyle="{StaticResource LV}" Grid.Row="2">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+
+                            <Border Style="{StaticResource LVBorder}" CornerRadius="5"  Height="50">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Id}" Width="35" Margin="12 15 0 0"  />
+                                    <TextBlock Text="{Binding Product}" Width="180" Margin="12 15 0 0"  />
+                                    <TextBlock Text="{Binding Naam}" Width="250" Margin="12 15 0 0"  />
+                                <TextBlock Text="{Binding TotaalPrijs, StringFormat=' {0}€'}" Margin="12 15 0 0"/>
+                            </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                </ListView>
+            </Grid>
+        <!--</StackPanel>-->
+        <!--Klanten Einde-->
+        
+        
+        <!--Leveranciers Start-->
+
+        <Grid Visibility="Hidden" Name="sp_Leveranciers">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="0">
+                <Button Padding="4" Margin="4 0 0 0" Height="30" RenderOptions.BitmapScalingMode="HighQuality" Click="GoBack">
+                    <Image Source="/Images/GoBack.png"/>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                <TextBlock Text="Id" Width="35" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White" />
+                <TextBlock Text="Product" Width="180" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White" />
+                <TextBlock Text="Besteld van" Width="250" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White"  />
+                <TextBlock Text="Totaal" Width="60" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White"/>
+            </StackPanel>
+
+
+            <ListView Name="lb_LeveranciersBestelling" Background="#36393F" BorderThickness="0" ScrollViewer.CanContentScroll="False" VirtualizingPanel.ScrollUnit="Pixel"
+                  ItemContainerStyle="{StaticResource LV}" Grid.Row="2">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+
+                        <Border Style="{StaticResource LVBorder}" CornerRadius="5"  Height="50">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Id}" Width="35" Margin="12 15 0 0"  />
+                                <TextBlock Text="{Binding Product}" Width="180" Margin="12 15 0 0"  />
+                                <TextBlock Text="{Binding Naam}" Width="250" Margin="12 15 0 0"  />
+                                <TextBlock Text="{Binding TotaalPrijs, StringFormat=' {0}€'}" Margin="12 15 0 0"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+        </Grid>
+        <!--Leveranciers Einde-->
+    </Grid>
+</Page>

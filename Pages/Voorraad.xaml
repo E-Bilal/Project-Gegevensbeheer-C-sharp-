@@ -11,6 +11,20 @@
       Foreground="White"
       FontSize="14">
     <Page.Resources>
+
+        <Style TargetType="TextBox" x:Key="UpdateTextBox">
+
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Foreground" Value="White"/>
+            
+            <Setter Property="CaretBrush" Value="LightGray"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            
+            <Setter Property="Background" Value="#292b2F"/>
+        </Style>
+
         <ControlTemplate x:Key="NoMouseOverButtonTemplate" TargetType="Button">
             <Border Background="{TemplateBinding Background}"  
                     BorderBrush="{TemplateBinding BorderBrush}"  
@@ -26,21 +40,13 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
-        <Style TargetType="TextBox" x:Key="SettingsTextBox">
-            <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="CaretBrush" Value="LightGray"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                <!--<Setter Property="IsEnabled" Value="True"/>-->
-                <Setter Property="Background" Value="#292b2F"/>
-            </Style>
     </Page.Resources>
     <Grid>
         
         <!--Keuze Start-->
         <StackPanel Name="sp_Keuze" Orientation="Horizontal" HorizontalAlignment="Center" Height="120" >
             <Button Content="Onderdelen" Width="190" Click="OpenOnderdeel"/>
-            <Button Content="Auto's"  Width="190" Margin="90 0 0 0"/>
+            <Button Content="Auto's"  Width="190" Click="OpenAuto" Margin="90 0 0 0"/>
         </StackPanel>
         <!--Keuze Einde-->
 
@@ -54,27 +60,44 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <StackPanel Orientation="Horizontal" Grid.Row="0">
+
+
+                <StackPanel Orientation="Horizontal" Grid.Row="0" >
+                    
                     <Button Padding="4" Margin="4 0 0 0" Height="30" RenderOptions.BitmapScalingMode="HighQuality" Click="GoBack">
                         <Image Source="/Images/GoBack.png"/>
                     </Button>
-                    <Border  CornerRadius="15" Background="Gray" Margin="90 12 12 12" Width="400">
+
+                    <Border  CornerRadius="15" Background="Gray" Margin="90 12 12 12" Width="400" Name="btn_OndToevoegen">
                         <Button Content="Item Toevoegen"  Background="Transparent"
                                 BorderThickness="0" Cursor="Hand"
                                 Template="{StaticResource NoMouseOverButtonTemplate}"
                                 Grid.Row="1" FontSize="16"                                
                                 Foreground="White" Click="OpenAddOnderdeelWindow"/>
                     </Border>
+                    
+                    <Button Name="btn_KlantOndBestelling" Click="KlantBestellingOnd" Padding="4" Margin="4 5 0 0"  Height="30" RenderOptions.BitmapScalingMode="HighQuality">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontWeight="Bold" Text="Klant" VerticalAlignment="Center"/>
+                            <Image Source="/Images/shopping-cart.png"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Name="btn_LeverancierOndBestelling" Click="LeverancierBestellingOnd" Padding="4" Margin="4 5 0 0"  Height="30" RenderOptions.BitmapScalingMode="HighQuality">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontWeight="Bold" Text="Leverancier" VerticalAlignment="Center"/>
+                            <Image Source="/Images/shopping-cart.png"/>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Grid.Row="1">
-                    <TextBlock Text="Naam" Width="250" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White" />
-                    <TextBlock Text="Voorraad" Width="120" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White"  />
+                    <TextBlock Text="Naam" Width="290" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White" />
+                    <TextBlock Text="Aantal" Width="120" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White"  />
                     <TextBlock Text="Prijs" Width="40" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White"/>
                 </StackPanel>
 
 
-                <ListView Name="lb_Onderdeel" Background="#36393F" BorderThickness="0" 
+                <ListView Name="lb_Onderdeel" Background="#36393F" BorderThickness="0" ItemsSource="{Binding Onderdeel}"
                   ItemContainerStyle="{StaticResource LV}" Grid.Row="2">
 
                     <ListView.ItemTemplate>
@@ -83,19 +106,31 @@
                             <Border Style="{StaticResource LVBorder}" CornerRadius="5"  Height="50">
 
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Name}" Width="250" Margin="12 15 0 0"  />
+                                    <TextBlock Text="{Binding Name}" Width="290" Margin="12 15 0 0"  />
                                     <TextBlock Text="{Binding Voorraad}" Width="90" Margin="28 15 0 0"  />
-                                    <TextBlock Text="{Binding Prijs}" Width="40" Margin="20 15 0 0"  />
+                                    <TextBlock Text="{Binding Prijs}" Width="40" Margin="28 15 0 0"  Visibility="{Binding PrijsVisibility}" />
 
-                                    <Button Padding="4" Margin="30 0 0 0" Height="30" RenderOptions.BitmapScalingMode="HighQuality">
-                                        <Image Source="/Images/EditIcon.png"/>
-                                    </Button>
-                                    <Button Padding="4" Margin="4 0 0 0"  Height="30" RenderOptions.BitmapScalingMode="HighQuality">
-                                        <Image Source="/Images/shopping-cart.png"/>
-                                    </Button>
-                                    <Button Padding="4" Margin="4 0 0 0" Height="30" RenderOptions.BitmapScalingMode="HighQuality">
-                                        <Image Source="/Images/DeleteIcon.png"/>
-                                    </Button>
+                                    <StackPanel Orientation="Horizontal" Visibility="{Binding EditStack}" Margin="14 0 0 0">
+                                        <TextBox Text="{Binding PrijsTextbox}" Style="{StaticResource UpdateTextBox}" MaxLength="4" Width="60"/>
+                                        <TextBlock Text="." FontSize="25" Margin="2 10 2 0 "/>
+                                        <TextBox Text="{Binding PrijsTextbox2}" Style="{StaticResource UpdateTextBox}" Width="40" MaxLength="2"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Visibility="{Binding ButtonStack}">
+                                        <Button Padding="4" Margin="45 0 0 0" Height="30" Click="ShowEditStack" RenderOptions.BitmapScalingMode="HighQuality">
+                                            <Image Source="/Images/EditIcon.png"/>
+                                        </Button>
+                                    </StackPanel>
+                                    
+                                    <StackPanel Orientation="Horizontal" Visibility="{Binding EditStack}">
+                                        <Button Padding="5" Margin="45 0 0 0" Height="30" Click="UpdateOnderdeel" RenderOptions.BitmapScalingMode="HighQuality">
+                                            <Image Source="/Images/OkIcon.png"/>
+                                        </Button>
+                                        <Button Padding="4" Margin="4 0 0 0"  Click="CancelOnderdeel" Height="30" RenderOptions.BitmapScalingMode="HighQuality">
+                                            <Image Source="/Images/XIcon.png"/>
+                                        </Button>
+                                    </StackPanel>
+
                                 </StackPanel>
                             </Border>
 
@@ -116,25 +151,41 @@
                     <RowDefinition Height="40"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                
-                <StackPanel Orientation="Horizontal" Grid.Row="0">
-                    <Button Padding="4" Margin="4 0 0 0" Height="30" RenderOptions.BitmapScalingMode="HighQuality">
+
+                <StackPanel Orientation="Horizontal" Grid.Row="0" >
+                    <Button Padding="4" Margin="4 0 0 0" Height="30" RenderOptions.BitmapScalingMode="HighQuality" Click="GoBack">
                         <Image Source="/Images/GoBack.png"/>
                     </Button>
-                    <Border  CornerRadius="15" Background="Gray" Margin="90 12 12 12" Width="400">
+
+                    <Border  CornerRadius="15" Background="Gray" Margin="90 12 12 12" Width="400" Name="btn_AutoToevoegen">
                         <Button Content="Item Toevoegen"  Background="Transparent"
                                 BorderThickness="0" Cursor="Hand"
                                 Template="{StaticResource NoMouseOverButtonTemplate}"
                                 Grid.Row="1" FontSize="16"                                
-                                Foreground="White" Click="OpenAddOnderdeelWindow"/>
+                                Foreground="White" Click="OpenAddAutoWindow"/>
                     </Border>
+
+                    <Button  Name="btn_KlantAutoBestelling" Click="KlantBestellingAuto" Padding="4" Margin="4 5 0 0"  Height="30" RenderOptions.BitmapScalingMode="HighQuality">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontWeight="Bold" Text="Klant" VerticalAlignment="Center"/>
+                            <Image Source="/Images/shopping-cart.png"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button  Name="btn_LeverancierAutoBestelling" Click="LeverancierBestellingAuto" Padding="4" Margin="4 5 0 0"  Height="30" RenderOptions.BitmapScalingMode="HighQuality">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontWeight="Bold" Text="Leverancier" VerticalAlignment="Center"/>
+                            <Image Source="/Images/shopping-cart.png"/>
+                        </StackPanel>
+                    </Button>
+                    
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Grid.Row="1">
-                    <TextBlock Text="Merk" Width="120" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White" />
-                    <TextBlock Text="Model" Width="150" Margin="5 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White" />
+                    <TextBlock Text="Merk" Width="160" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White" />
+                    <TextBlock Text="Model" Width="180" Margin="5 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White" />
                     <TextBlock Text="Bouwjaar" Width="90" Margin="5 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White" />
-                    <TextBlock Text="Voorraad" Width="90" Margin="5 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White"  />
+                    <TextBlock Text="Aantal" Width="90" Margin="5 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White"  />
                     <TextBlock Text="Prijs" Width="90" Margin="5 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White"/>
                 </StackPanel>
 
@@ -152,20 +203,36 @@
                             <Border Style="{StaticResource LVBorder}" CornerRadius="5"  Height="50">
 
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Name}" Width="250" Margin="12 15 0 0"  />
-                                    <TextBlock Text="{Binding Voorraad}" Width="90" Margin="28 15 0 0"  />
-                                    <TextBlock Text="{Binding Prijs}" Width="40" Margin="20 15 0 0"  />
-                                    
-                                    <Button Padding="4" Margin="30 0 0 0" Height="30" RenderOptions.BitmapScalingMode="HighQuality">
-                                        <Image Source="/Images/EditIcon.png"/>
-                                    </Button>
-                                    <Button Padding="4" Margin="4 0 0 0"  Height="30" RenderOptions.BitmapScalingMode="HighQuality">
-                                        <Image Source="/Images/shopping-cart.png"/>
-                                    </Button>
-                                    <Button Padding="4" Margin="4 0 0 0" Height="30" RenderOptions.BitmapScalingMode="HighQuality">
-                                        <Image Source="/Images/DeleteIcon.png"/>
-                                    </Button>
+                                    <TextBlock Text="{Binding Merk}" Width="160" Margin="12 15 0 0"  />
+                                    <TextBlock Text="{Binding Model}" Width="180" Margin="10 15 0 0"  />
+                                    <TextBlock Text="{Binding Bouwjaar}" Width="90" Margin="12 15 0 0"  />
+                                    <TextBlock Text="{Binding Voorraad}" Width="60" Margin="12 15 0 0"  />
+                                    <TextBlock Text="{Binding Prijs}" Width="40" Margin="17 15 0 0"  Visibility="{Binding PrijsVisibility}" />
+
+                                    <StackPanel Orientation="Horizontal" Visibility="{Binding EditStack}" Margin="4 0 0 0">
+                                        <TextBox Text="{Binding PrijsTextbox}" Style="{StaticResource UpdateTextBox}" MaxLength="5" Width="60"/>
+                                        <TextBlock Text="." FontSize="25" Margin="2 10 2 0 "/>
+                                        <TextBox Text="{Binding PrijsTextbox2}" Style="{StaticResource UpdateTextBox}" Width="40" MaxLength="2"/>
+                                    </StackPanel>
+
+
+                                    <StackPanel Orientation="Horizontal" Visibility="{Binding ButtonStack}">
+                                        <Button Padding="4" Margin="45 0 0 0" Height="30" Click="ShowEditStack" RenderOptions.BitmapScalingMode="HighQuality">
+                                            <Image Source="/Images/EditIcon.png"/>
+                                        </Button>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Visibility="{Binding EditStack}">
+                                        <Button Padding="5" Margin="20 0 0 0" Height="30" Click="UpdateOnderdeel" RenderOptions.BitmapScalingMode="HighQuality">
+                                            <Image Source="/Images/OkIcon.png"/>
+                                        </Button>
+                                        <Button Padding="4" Margin="4 0 0 0"  Click="CancelOnderdeel" Height="30" RenderOptions.BitmapScalingMode="HighQuality">
+                                            <Image Source="/Images/XIcon.png"/>
+                                        </Button>
+                                    </StackPanel>
+
                                 </StackPanel>
+                                
                             </Border>
 
                         </DataTemplate>

@@ -12,10 +12,15 @@
     <None Remove="Images\DeleteIcon.png" />
     <None Remove="Images\EditIcon.png" />
     <None Remove="Images\GoBack.png" />
+    <None Remove="Images\key-icon.png" />
+    <None Remove="Images\OkIcon.png" />
     <None Remove="Images\shopping-cart.png" />
+    <None Remove="Images\user-icon.png" />
+    <None Remove="Images\XIcon.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
@@ -28,7 +33,20 @@
     <Resource Include="Images\DeleteIcon.png" />
     <Resource Include="Images\EditIcon.png" />
     <Resource Include="Images\GoBack.png" />
+    <Resource Include="Images\key-icon.png" />
+    <Resource Include="Images\OkIcon.png" />
     <Resource Include="Images\shopping-cart.png" />
+    <Resource Include="Images\user-icon.png" />
+    <Resource Include="Images\XIcon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Data\GarageShop.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="GarageShop.db">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

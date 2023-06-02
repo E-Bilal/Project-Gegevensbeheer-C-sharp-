@@ -3,6 +3,7 @@ using System;
 using Eindwerk__Gegevensbeheer__en_C_sharp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eindwerk__Gegevensbeheer__en_C_sharp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230528193958_added mecanicien table")]
+    partial class addedmecanicientable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
@@ -58,6 +61,7 @@ namespace Eindwerk__Gegevensbeheer__en_C_sharp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("KlantId")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("LeverancierId")
@@ -188,37 +192,6 @@ namespace Eindwerk__Gegevensbeheer__en_C_sharp.Migrations
                     b.ToTable("Onderdelen");
                 });
 
-            modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Reparatie", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Datum")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("KlantId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("MecanicienId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Raming")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Soort")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("KlantId");
-
-                    b.HasIndex("MecanicienId");
-
-                    b.ToTable("Reparaties");
-                });
-
             modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.User", b =>
                 {
                     b.Property<int?>("Id")
@@ -251,10 +224,11 @@ namespace Eindwerk__Gegevensbeheer__en_C_sharp.Migrations
                     b.HasOne("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Klant", "Klant")
                         .WithMany("Bestelling")
                         .HasForeignKey("KlantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Leverancier", "Leverancier")
-                        .WithMany("Bestelling")
+                        .WithMany()
                         .HasForeignKey("LeverancierId");
 
                     b.HasOne("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Onderdeel", "Onderdeel")
@@ -270,36 +244,9 @@ namespace Eindwerk__Gegevensbeheer__en_C_sharp.Migrations
                     b.Navigation("Onderdeel");
                 });
 
-            modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Reparatie", b =>
-                {
-                    b.HasOne("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Klant", "Klant")
-                        .WithMany("Reparatie")
-                        .HasForeignKey("KlantId");
-
-                    b.HasOne("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Mecanicien", "Mecanicien")
-                        .WithMany("Reparatie")
-                        .HasForeignKey("MecanicienId");
-
-                    b.Navigation("Klant");
-
-                    b.Navigation("Mecanicien");
-                });
-
             modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Klant", b =>
                 {
                     b.Navigation("Bestelling");
-
-                    b.Navigation("Reparatie");
-                });
-
-            modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Leverancier", b =>
-                {
-                    b.Navigation("Bestelling");
-                });
-
-            modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Mecanicien", b =>
-                {
-                    b.Navigation("Reparatie");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,0 +1,96 @@
+﻿<Page x:Class="Eindwerk__Gegevensbeheer__en_C_sharp.Pages.Reparaties"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Eindwerk__Gegevensbeheer__en_C_sharp.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Reparaties">
+
+    <Page.Resources>
+
+        <Style TargetType="TextBox" x:Key="UpdateTextBox">
+
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Foreground" Value="White"/>
+
+            <Setter Property="CaretBrush" Value="LightGray"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+            <Setter Property="Background" Value="#292b2F"/>
+        </Style>
+
+        <ControlTemplate x:Key="NoMouseOverButtonTemplate" TargetType="Button">
+            <Border Background="{TemplateBinding Background}"  
+                    BorderBrush="{TemplateBinding BorderBrush}"  
+                    BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  
+                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+            </Border>
+
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled"  Value="False">
+                    <Setter Property="Background"   Value="{x:Static SystemColors.ControlLightBrush}" />
+                    <Setter Property="Foreground"   Value="{x:Static SystemColors.GrayTextBrush}" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Page.Resources>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" Name="sp_OpenAddReparatie">
+
+            <Border  CornerRadius="15" Background="Gray" Margin="0 12 0 12" Width="400">
+                <Button Content="Reparatie Toevoegen"  Background="Transparent" 
+                                BorderThickness="0" Cursor="Hand"
+                                Template="{StaticResource NoMouseOverButtonTemplate}"
+                                Click="OpenAddReparatie"
+                                Grid.Row="1" FontSize="16"                                
+                                Foreground="White"/>
+            </Border>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <TextBlock Text="Id" Width="35" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White" />
+            <TextBlock Text="Klant" Width="150" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White" />
+            <TextBlock Text="Mecanicien" Width="150" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White" />
+            <TextBlock Text="Datum" Width="80" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White" />
+            <TextBlock Text="Soort" Width="60" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White"  />
+            <TextBlock Text="Raming" Width="70" Margin="12 15 0 0" FontWeight="Bold" FontSize="18" Foreground="White"/>
+        </StackPanel>
+
+
+        <ListView Name="lb_Reparaties" Background="#36393F" BorderThickness="0" ScrollViewer.CanContentScroll="False" VirtualizingPanel.ScrollUnit="Pixel"
+                  ItemContainerStyle="{StaticResource LV}" Grid.Row="2">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+
+                    <Border Style="{StaticResource LVBorder}" CornerRadius="5"  Height="50">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Id}" Width="35" Margin="12 15 0 0"  />
+                            <TextBlock Text="{Binding KlantenNaam }" Width="150" Margin="12 15 0 0"  />
+                            <TextBlock Text="{Binding MecanicienNaam}" Width="150" Margin="12 15 0 0"  />
+                            <TextBlock Text="{Binding TimeFormatted}" Width="80" Margin="12 15 0 0"  />
+                            <TextBlock Text="{Binding Soort}" Width="60" Margin="12 15 0 0"  />
+                            <TextBlock Text="{Binding Raming, StringFormat=' {0} Dagen'}" Width="70" Margin="12 15 0 0"  />
+                            <Button Padding="5" Margin="45 0 0 0" Visibility="{Binding Visibility}"  Height="30" Click="ReparatieVoltooid" RenderOptions.BitmapScalingMode="HighQuality">
+                                <Image Source="/Images/OkIcon.png"/>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Eindwerk__Gegevensbeheer__en_C_sharp"
         mc:Ignorable="d"
         Title="MainWindow" 
-        Height="550" Width="850"
+        Height="550" Width="950"
         AllowsTransparency="True"
         WindowStyle="None"
         MouseDown="Window_MouseDown"
@@ -23,10 +23,12 @@
             <ColumnDefinition Width="200"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        
-        <Border Grid.ColumnSpan="2" Background="#252525">
-            <local:TopBar/>
-        </Border>
+
+        <DockPanel Grid.ColumnSpan="2" Background="#252525">
+            <Label Content="Main" Foreground="Gray" FontWeight="SemiBold"/>
+            <local:TopBar HorizontalContentAlignment="Right"/>
+        </DockPanel>
+
         <ListView x:Name="listNav"  
                   Grid.Row="1"
                   Grid.Column="0"
@@ -36,7 +38,7 @@
                   Background="#4A4C52"
                   />
 
-        <!--<Button Content="Logout" Grid.Row="2" Grid.Column="0" Click="Button_Click"/>-->
+        <Button Content="Logout" Grid.Row="2" Grid.Column="0" Click="Logout"/>
 
         <Frame Grid.Column="1"  Grid.Row="1" Grid.RowSpan="2" 
                x:Name="frame" 

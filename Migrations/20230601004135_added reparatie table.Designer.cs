@@ -3,6 +3,7 @@ using System;
 using Eindwerk__Gegevensbeheer__en_C_sharp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eindwerk__Gegevensbeheer__en_C_sharp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230601004135_added reparatie table")]
+    partial class addedreparatietable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
@@ -58,6 +61,7 @@ namespace Eindwerk__Gegevensbeheer__en_C_sharp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("KlantId")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("LeverancierId")
@@ -251,10 +255,11 @@ namespace Eindwerk__Gegevensbeheer__en_C_sharp.Migrations
                     b.HasOne("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Klant", "Klant")
                         .WithMany("Bestelling")
                         .HasForeignKey("KlantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Leverancier", "Leverancier")
-                        .WithMany("Bestelling")
+                        .WithMany()
                         .HasForeignKey("LeverancierId");
 
                     b.HasOne("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Onderdeel", "Onderdeel")
@@ -290,11 +295,6 @@ namespace Eindwerk__Gegevensbeheer__en_C_sharp.Migrations
                     b.Navigation("Bestelling");
 
                     b.Navigation("Reparatie");
-                });
-
-            modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Leverancier", b =>
-                {
-                    b.Navigation("Bestelling");
                 });
 
             modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Mecanicien", b =>

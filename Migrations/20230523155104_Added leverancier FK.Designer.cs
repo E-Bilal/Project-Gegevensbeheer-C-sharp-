@@ -3,6 +3,7 @@ using System;
 using Eindwerk__Gegevensbeheer__en_C_sharp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,16 +11,18 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eindwerk__Gegevensbeheer__en_C_sharp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230523155104_Added leverancier FK")]
+    partial class AddedleverancierFK
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
 
             modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Auto", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -119,7 +122,7 @@ namespace Eindwerk__Gegevensbeheer__en_C_sharp.Migrations
 
             modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Leverancier", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -140,36 +143,9 @@ namespace Eindwerk__Gegevensbeheer__en_C_sharp.Migrations
                     b.ToTable("Leveranciers");
                 });
 
-            modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Mecanicien", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Achternaam")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("TelefoonNummer")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Voornaam")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Mecaniciens");
-                });
-
             modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Onderdeel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -186,37 +162,6 @@ namespace Eindwerk__Gegevensbeheer__en_C_sharp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Onderdelen");
-                });
-
-            modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Reparatie", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Datum")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("KlantId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("MecanicienId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Raming")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Soort")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("KlantId");
-
-                    b.HasIndex("MecanicienId");
-
-                    b.ToTable("Reparaties");
                 });
 
             modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.User", b =>
@@ -249,12 +194,11 @@ namespace Eindwerk__Gegevensbeheer__en_C_sharp.Migrations
                         .HasForeignKey("AutoId");
 
                     b.HasOne("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Klant", "Klant")
-                        .WithMany("Bestelling")
-                        .HasForeignKey("KlantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("KlantId");
 
                     b.HasOne("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Leverancier", "Leverancier")
-                        .WithMany("Bestelling")
+                        .WithMany()
                         .HasForeignKey("LeverancierId");
 
                     b.HasOne("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Onderdeel", "Onderdeel")
@@ -268,38 +212,6 @@ namespace Eindwerk__Gegevensbeheer__en_C_sharp.Migrations
                     b.Navigation("Leverancier");
 
                     b.Navigation("Onderdeel");
-                });
-
-            modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Reparatie", b =>
-                {
-                    b.HasOne("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Klant", "Klant")
-                        .WithMany("Reparatie")
-                        .HasForeignKey("KlantId");
-
-                    b.HasOne("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Mecanicien", "Mecanicien")
-                        .WithMany("Reparatie")
-                        .HasForeignKey("MecanicienId");
-
-                    b.Navigation("Klant");
-
-                    b.Navigation("Mecanicien");
-                });
-
-            modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Klant", b =>
-                {
-                    b.Navigation("Bestelling");
-
-                    b.Navigation("Reparatie");
-                });
-
-            modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Leverancier", b =>
-                {
-                    b.Navigation("Bestelling");
-                });
-
-            modelBuilder.Entity("Eindwerk__Gegevensbeheer__en_C_sharp.Models.Mecanicien", b =>
-                {
-                    b.Navigation("Reparatie");
                 });
 #pragma warning restore 612, 618
         }
